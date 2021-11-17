@@ -60,6 +60,7 @@ async function run() {
         const appointmentsCollection = database.collection('appointments');
         const userCollection = database.collection('user');
         const doctorsCollection = database.collection('doctors');
+        console.log(doctorsCollection);
 
       
      //getting user all appointments
