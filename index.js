@@ -66,7 +66,15 @@ async function run() {
             const cursor = appointmentsCollection.find(query);
             const appointments = await cursor.toArray();
             res.json(appointments);
+        });
+
+        app.get('/appointments/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await appointmentsCollection.findOne(query);
+            res.json(result);
         })
+
     ///saving appointmentsof users from client site
 
         app.post('/appointments', async (req, res) => {
