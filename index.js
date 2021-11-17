@@ -5,7 +5,7 @@ require('dotenv').config();
 const { MongoClient } = require('mongodb');
 const admin = require("firebase-admin");
 const ObjectId = require('mongodb').ObjectId;
-const stripe = require('stripe')(process.env.STRIPE_SECRET)
+// const stripe = require('stripe')(process.env.STRIPE_SECRET)
 const fileUpload = require('express-fileUpload');
 
 
@@ -162,16 +162,16 @@ async function run() {
         });
 
 
-        app.post('/create-payment-intent', async (req, res) => {
-            const paymentInfo = req.body;
-            const amount = paymentInfo.price * 100;
-            const paymentIntent = await stripe.paymentIntents.create({
-                currency: 'usd',
-                amount: amount,
-                payment_method_types: ['card']
-            });
-            res.json({ clientSecret: paymentIntent.client_secret })
-        })
+        // app.post('/create-payment-intent', async (req, res) => {
+        //     const paymentInfo = req.body;
+        //     const amount = paymentInfo.price * 100;
+        //     const paymentIntent = await stripe.paymentIntents.create({
+        //         currency: 'usd',
+        //         amount: amount,
+        //         payment_method_types: ['card']
+        //     });
+        //     res.json({ clientSecret: paymentIntent.client_secret })
+        // })
 
 
     }
