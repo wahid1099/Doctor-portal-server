@@ -5,10 +5,7 @@ require('dotenv').config();
 const { MongoClient } = require('mongodb');
 const admin = require("firebase-admin");
 const ObjectId = require('mongodb').ObjectId;
-// const stripe = require('stripe')(process.env.STRIPE_SECRET)
 const fileUpload = require('express-fileUpload');
-
-
 const port = process.env.PORT || 7000;
 
 app.use(cors());
@@ -60,7 +57,7 @@ async function run() {
         const appointmentsCollection = database.collection('appointments');
         const userCollection = database.collection('user');
         const doctorsCollection = database.collection('doctors');
-        console.log(doctorsCollection);
+        //console.log(doctorsCollection);
 
       
      //getting user all appointments
