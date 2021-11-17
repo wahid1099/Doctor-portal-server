@@ -4,14 +4,11 @@ const cors = require('cors');
 require('dotenv').config();
 const { MongoClient } = require('mongodb');
 const admin = require("firebase-admin");
-const ObjectId = require('mongodb').ObjectId;
-const fileUpload = require('express-fileUpload');
+
 const port = process.env.PORT || 7000;
 
 app.use(cors());
 app.use(express.json());
-app.use(fileUpload());
-
 //doctor-portal-firebase-adminsdk.json
 
 
@@ -55,11 +52,8 @@ async function run() {
         //creating database and collections
         const database = client.db('doctors_portal');
         const appointmentsCollection = database.collection('appointments');
-        const userCollection = database.collection('user');
-        const doctorsCollection = database.collection('doctors');
-        //console.log(doctorsCollection);
+           const userCollection = database.collection('user');
 
-      
      //getting user all appointments
         app.get('/appointments',verifyToken, async (req, res) => {
             const email = req.query.email;
@@ -77,13 +71,6 @@ async function run() {
             console.log(result);
             res.json(result)
         });
-        app.get('/appointments/:id', async (req, res) => {
-            const id = req.params.id;
-            const query = { _id: ObjectId(id) };
-            const result = await appointmentsCollection.findOne(query);
-            res.json(result);
-        })
-
             ///getting admins database
       app.get('/users/:email',async (req, res)=>{
     const email=req.params.email;
@@ -96,30 +83,7 @@ async function run() {
     res.json({admin: isAdmin});
 
 
-    });
-    //-------------------------------------<>----------------------------------
-    app.get('/doctors', async (req, res) => {
-        const cursor = doctorsCollection.find({});
-        const doctors = await cursor.toArray();
-        res.json(doctors);
-    });
-
-    app.post('/doctors', async (req, res) => {
-        const name = req.body.name;
-        const email = req.body.email;
-        const pic = req.files.image;
-        const picData = pic.data;
-        const encodedPic = picData.toString('base64');
-        const imageBuffer = Buffer.from(encodedPic, 'base64');
-        const doctor = {
-            name,
-            email,
-            image: imageBuffer
-        }
-        const result = await doctorsCollection.insertOne(doctor);
-        res.json(result);
-    })
-
+    }) 
 
 
         //adding user data to databse
@@ -157,20 +121,7 @@ async function run() {
                 res.status(403).json({ message: 'you do not have access to make admin' })
             }
 
-        });
-
-
-        // app.post('/create-payment-intent', async (req, res) => {
-        //     const paymentInfo = req.body;
-        //     const amount = paymentInfo.price * 100;
-        //     const paymentIntent = await stripe.paymentIntents.create({
-        //         currency: 'usd',
-        //         amount: amount,
-        //         payment_method_types: ['card']
-        //     });
-        //     res.json({ clientSecret: paymentIntent.client_secret })
-        // })
-
+        })
 
     }
     finally {
@@ -195,4 +146,3 @@ app.listen(port, () => {
 // app.delete('/users/:id')
 // users: get
 // users: post
-
